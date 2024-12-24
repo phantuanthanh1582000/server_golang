@@ -6,6 +6,8 @@ pipeline {
         DOCKER_TAG = 'latest'
         PROD_SERVER = 'ec2-54-151-192-34.ap-southeast-1.compute.amazonaws.com'
         PROD_USER = 'ubuntu'
+        TELEGRAM_BOT_TOKEN = '7507363397:AAFBUNpypSoDBzanYU1Ov5bflYAMtvbeWko'
+        TELEGRAM_CHAT_ID = '-1002414022084'
     }
 
     stages {
@@ -83,5 +85,20 @@ pipeline {
         always {
             cleanWs()
         }
+        success {
+            sendTelegramMessage("✅ Build #${BUILD_NUMBER} was successful! ✅")
+        }
+
+        failure {
+            sendTelegramMessage("❌ Build #${BUILD_NUMBER} failed. ❌")
+        }
     }
+}
+
+def sendTelegramMessage(String message) {
+    sh """
+    curl -s -X POST https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage \
+    -d chat_id=${TELEGRAM_CHAT_ID} \
+    -d text="${message}"
+    """
 }
