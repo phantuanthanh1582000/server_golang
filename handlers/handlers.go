@@ -10,3 +10,9 @@ func PingHandler(c *gin.Context) {
     "message": "pong",
   })
 }
+
+func UserHandler(c *gin.Context) {
+  c.JSON(http.StatusOK, gin.H{
+    "message": "List-user",
+  })
+}
