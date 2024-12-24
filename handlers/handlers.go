@@ -16,3 +16,9 @@ func UserHandler(c *gin.Context) {
     "message": "List-user",
   })
 }
+
+func ProductHandler(c *gin.Context) {
+  c.JSON(http.StatusOK, gin.H{
+    "message": "List-product",
+  })
+}
